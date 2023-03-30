@@ -7,18 +7,18 @@ import ILogin from "../../interfaces/login.interfaces";
 import "dotenv/config";
 import { Repository } from "typeorm";
 
-const createLoginService = async (loginData: ILogin): Promise<string> => {
+const createLoginService = async ({email, password}: ILogin) => {
   const userRepository: Repository<User> = AppDataSource.getRepository(User);
 
   const user: User | null = await userRepository.findOneBy({
-    email: loginData.email,
+    email: email,
   });
 
   if (!user) {
     throw new AppError("Wrong Email or password", 401);
   }
 
-  const passwordMatch = await compare(loginData.password, user.password);
+  const passwordMatch = await compare(password, user.password);
 
   if (!passwordMatch) {
     throw new AppError("Wrong Email or password", 401);
@@ -35,7 +35,7 @@ const createLoginService = async (loginData: ILogin): Promise<string> => {
     }
   );
 
-  return token;
+  return {token, user} ;
 };
 
 export default createLoginService;
