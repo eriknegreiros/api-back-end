@@ -23,6 +23,7 @@ const updateContactService = async (
     throw new AppError("Contact not found", 404);
   }
 
+
   await contactRepository.update({ id: id }, userData);
 
   return Object.assign(oldContactData, userData);
