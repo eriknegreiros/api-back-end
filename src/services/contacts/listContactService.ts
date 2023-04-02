@@ -13,13 +13,7 @@ const listContactService = async (): Promise<IContacts> => {
     },
   });
 
-  console.log(contacts);
-
-  const allContacts = manyContacts.parse(contacts);
-
-  console.log(allContacts);
-
-  return allContacts;
+  return contacts;
 };
 
 export default listContactService;
